@@ -5,6 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV HOMEBREW_ON_DEBIAN7=1
 ENV HOMEBREW_CURL_PATH=/usr/bin/curl
 ENV HOMEBREW_GIT_PATH=/usr/bin/git
+ENV HOMEBREW_FORCE_BREWED_CA_CERTIFICATES=1
 
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -35,7 +36,7 @@ RUN apt-get update \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # hadolint ignore=DL3003
-RUN curl -sL https://ftp.gnu.org/gnu/tar/tar-1.32.tar.gz | tar xz \
+RUN curl -sL http://ftp.gnu.org/gnu/tar/tar-1.32.tar.gz | tar xz \
     && cd /tar-1.32 \
     && FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr/local \
     && make install \
@@ -44,7 +45,7 @@ RUN curl -sL https://ftp.gnu.org/gnu/tar/tar-1.32.tar.gz | tar xz \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # hadolint ignore=DL3003
-RUN curl -sL https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.gz | tar xz \
+RUN curl -sL http://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.gz | tar xz \
     && cd /git-2.28.0 \
     && make configure \
     && ./configure --prefix=/usr/local \
@@ -64,6 +65,7 @@ RUN cd /home/linuxbrew/.linuxbrew \
   && mkdir -p bin etc include lib opt sbin share var/homebrew/linked Cellar \
   && ln -s ../Homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/ \
   && HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew tap homebrew/core \
+  && HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew install ca-certificates \
   && brew cleanup \
   && { git -C /home/linuxbrew/.linuxbrew/Homebrew config --unset gc.auto; true; } \
   && { git -C /home/linuxbrew/.linuxbrew/Homebrew config --unset homebrew.devcmdrun; true; } \
