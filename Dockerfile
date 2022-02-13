@@ -58,11 +58,10 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # hadolint ignore=DL3003
 RUN curl -sL http://fresh-center.net/linux/www/curl-7.81.0.tar.bz2 | tar xjv \
     && cd /curl-7.81.0 \
-    && ./configure --with-openssl --disable-shared --prefix=/usr/local \
+    && ./configure --with-openssl --disable-shared --prefix=/opt \
     && make \
     && make install \
-    && rm -rf /curl-7.81.0 \
-    && ln -fs /usr/local/bin/curl /usr/bin/curl
+    && rm -rf /curl-7.81.0
 
 USER linuxbrew
 WORKDIR /home/linuxbrew
