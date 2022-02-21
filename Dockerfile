@@ -5,7 +5,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV HOMEBREW_ON_DEBIAN7=1
 ENV HOMEBREW_CURL_PATH=/usr/bin/curl
 ENV HOMEBREW_GIT_PATH=/usr/bin/git
-ENV HOMEBREW_FORCE_BREWED_CA_CERTIFICATES=1
 
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -65,7 +64,6 @@ RUN cd /home/linuxbrew/.linuxbrew \
   && mkdir -p bin etc include lib opt sbin share var/homebrew/linked Cellar \
   && ln -s ../Homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/ \
   && HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew tap homebrew/core \
-  && HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew install ca-certificates \
   && brew cleanup \
   && { git -C /home/linuxbrew/.linuxbrew/Homebrew config --unset gc.auto; true; } \
   && { git -C /home/linuxbrew/.linuxbrew/Homebrew config --unset homebrew.devcmdrun; true; } \
