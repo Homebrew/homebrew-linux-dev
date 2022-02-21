@@ -29,7 +29,6 @@ RUN apt-get update \
        software-properties-common \
        sudo \
        texinfo \
-       libssl-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -s /bin/bash linuxbrew \
@@ -53,15 +52,6 @@ RUN curl -sL http://mirrors.edge.kernel.org/pub/software/scm/git/git-2.28.0.tar.
     && make install NO_TCLTK=1 \
     && rm -rf /git-2.28.0 \
     && ln -fs /usr/local/bin/git /usr/bin/git
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-# hadolint ignore=DL3003
-RUN curl -sL http://fresh-center.net/linux/www/curl-7.81.0.tar.bz2 | tar xjv \
-    && cd /curl-7.81.0 \
-    && ./configure --with-openssl --disable-shared --prefix=/opt \
-    && make \
-    && make install \
-    && rm -rf /curl-7.81.0
 
 USER linuxbrew
 WORKDIR /home/linuxbrew
